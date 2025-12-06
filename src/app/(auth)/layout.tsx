@@ -1,10 +1,10 @@
 'use client'
 
+//package import
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
-
-
+//relative import
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -14,6 +14,7 @@ interface AuthLayoutProps {
 
 
 const AuthLayout = ({ children }: AuthLayoutProps) => {
+    
     const pathname = usePathname();
     const isSignIn = pathname === '/sign-in';
 
@@ -22,7 +23,7 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
             <nav className="flex justify-between items-center">
                 <div className="flex items-center justify-between">
                     <Image src="/logo.svg" alt="logo" width={56} height={56} />
-                    <h1 className="m-2 font-bold font-[cursive]">Workboard</h1>
+                    <h1 className="m-2 text-xl font-bold font-[cursive]">Workboard</h1>
                 </div>
                 <div>
                     <Button asChild variant="secondary">

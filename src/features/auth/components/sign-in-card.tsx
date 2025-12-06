@@ -1,34 +1,36 @@
 import { z } from 'zod'
+import Link from 'next/link'
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 //components import
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { DottedSeparator } from "@/components/dotted-separator"
-import { Card, CardContent, CardTitle, CardHeader } from "@/components/ui/card"
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
-import Link from 'next/link'
+import { loginSchema } from '../schema';
+import { useLogin } from '../api/use-login';
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { DottedSeparator } from "@/components/dotted-separator";
+import { Card, CardContent, CardTitle, CardHeader } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 
 
-const formSchema = z.object({
-    email: z.email().trim(),
-    password: z.string().min(1, "Required")
-});
+
 
 export const SignInCard = () => {
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const { mutate } = useLogin();
+
+    const form = useForm<z.infer<typeof loginSchema>>({
+        resolver: zodResolver(loginSchema),
         defaultValues: {
             email: "",
             password: ""
         }
     });
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log(values);
+
+    const onSubmit = (values: z.infer<typeof loginSchema>) => {
+        mutate({json: values});
     }
     return <Card className="w-full h-full md:w-[486px] border-none shadow-none">
         <CardHeader className="flex items-center justify-center text-center p-7">
@@ -89,7 +91,7 @@ export const SignInCard = () => {
         <CardContent className="p-7 flex items-center justify-center">
             <p>Don't have an account?
                 <Link href='/sign-up'>
-                <span className='text-blue-700'>&nbsp;Sign Up</span>
+                    <span className='text-blue-700'>&nbsp;Sign Up</span>
                 </Link>
 
             </p>
